@@ -467,6 +467,21 @@ public class ParallelConsumerOptions<K, V> {
         Objects.requireNonNull(consumer, "A consumer must be supplied");
 
         transactionsValidation();
+        validateVirtualThreadsSupport();
+    }
+
+    private void validateVirtualThreadsSupport() {
+        if (useVirtualThreads) {
+            try {
+                // Thread.ofVirtual(), Executors.newThreadPerTaskExecutor(ThreadFactory)
+                Class.forName("java.lang.Thread").getMethod("ofVirtual");
+                java.util.concurrent.Executors.class.getMethod("newThreadPerTaskExecutor", java.util.concurrent.ThreadFactory.class);
+            } catch (NoSuchMethodException | ClassNotFoundException e) {
+                throw new UnsupportedOperationException(
+                        "useVirtualThreads is enabled, but the current JVM does not support Virtual Threads or the required ExecutorService."
+                );
+            }
+        }
     }
 
     private void transactionsValidation() {
@@ -570,4 +585,14 @@ public class ParallelConsumerOptions<K, V> {
      */
     @Builder.Default
     public final boolean ignoreReflectiveAccessExceptionsForAutoCommitDisabledCheck = false;
+
+    /**
+     * Whether to use Virtual Threads (Project Loom) for the worker pool. This feature requires running on JDK 21 or
+     * higher. If enabled on an older JDK the system will throw an exception during initialization.
+     * <p>
+     * Note: When enabled, this overrides any custom {@link #managedExecutorService} or {@link #managedThreadFactory}
+     * settings, as it creates a specific ExecutorService for virtual threads.
+     */
+    @Builder.Default
+    private final boolean useVirtualThreads = false;
 }
