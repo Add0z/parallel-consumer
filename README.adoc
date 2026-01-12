@@ -1536,6 +1536,14 @@ endif::[]
 
 == 0.5.3.4
 
+=== Features
+
+* feature: add options to enable virtual threads
+
+=== Improvements
+
+* refactor: migrate synchronized into ReentrantLock
+
 === Fixes
 
 * fix: keep instantiated OffsetMapCodecManager so that metrics will not be recreated every commit (#859)
