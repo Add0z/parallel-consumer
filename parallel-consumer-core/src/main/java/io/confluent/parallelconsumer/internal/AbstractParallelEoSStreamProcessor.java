@@ -1135,7 +1135,12 @@ public abstract class AbstractParallelEoSStreamProcessor<K, V> implements Parall
 
     protected int getQueueTargetLoaded() {
         //noinspection unchecked
-        return getPoolLoadTarget() * dynamicExtraLoadFactor.getCurrentFactor();
+        ExecutorService executor = workerThreadPool.get();
+        if (executor instanceof ThreadPoolExecutor) {
+            return getPoolLoadTarget() * dynamicExtraLoadFactor.getCurrentFactor();
+        } else {
+            return getPoolLoadTarget();
+        }
     }
 
     /**
