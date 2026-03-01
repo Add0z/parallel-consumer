@@ -61,7 +61,7 @@
 
     
     <properties>
-        <source.version>17</source.version>
+        <source.version>21</source.version>
         <release.target>21</release.target>
 
         <!-- when running mvn locally from cmd line, use default jvm for jvm8 - by default uses the runtime JVM -->
@@ -104,40 +104,13 @@
         <flogger.version>0.8</flogger.version>
         <mockito.version>5.12.0</mockito.version>
         <truth-generator-maven-plugin.version>0.1.1</truth-generator-maven-plugin.version>
-        <jabel.version>1.0.0</jabel.version>
+
         <logback.version>1.5.19</logback.version>
         <micrometer-core.version>1.13.0</micrometer-core.version>
     </properties>
 
     <profiles>
-        <profile>
-            <!-- override source and target when working from IDE -->
-            <id>intellij-idea-only</id>
-            <activation>
-                <property>
-                    <name>idea.maven.embedder.version</name>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-compiler-plugin</artifactId>
-                        <configuration>
-                            <!-- override source and target when working from IDE -->
-                            <source>${source.version}</source>
-                            <target>${source.version}</target>
-                            <release>${source.version}</release>
-                            <!-- disable Jabel -->
-                            <annotationProcessors>
-                                <annotationProcessor>lombok.launch.AnnotationProcessorHider$AnnotationProcessor
-                                </annotationProcessor>
-                            </annotationProcessors>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
+
         <profile>
             <!-- For releasing, use jvm8 for testing -->
             <!-- currently broken -->
@@ -818,6 +791,13 @@
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok-maven-plugin</artifactId>
                 <version>1.18.20.0</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.projectlombok</groupId>
+                        <artifactId>lombok</artifactId>
+                        <version>${lombok.version}</version>
+                    </dependency>
+                </dependencies>
                 <configuration>
                     <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
                     <outputDirectory>${delombok.output}</outputDirectory>
