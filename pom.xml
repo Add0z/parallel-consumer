@@ -62,7 +62,7 @@
     
     <properties>
         <source.version>17</source.version>
-        <release.target>8</release.target>
+        <release.target>21</release.target>
 
         <!-- when running mvn locally from cmd line, use default jvm for jvm8 - by default uses the runtime JVM -->
         <jvm.location>${java.home}</jvm.location>
@@ -84,7 +84,7 @@
         <!-- version numbers -->
         <!-- plugins -->
         <mycila.version>5.0.0</mycila.version>
-        <lombok.version>1.18.28</lombok.version>
+        <lombok.version>1.18.36</lombok.version>
         <auto-service.version>1.1.1</auto-service.version>
         <surefire.version>3.2.5</surefire.version>
 
@@ -255,13 +255,6 @@
 
     <dependencies>
         <!-- Build dependency -->
-        <dependency>
-            <groupId>com.github.bsideup.jabel</groupId>
-            <artifactId>jabel-javac-plugin</artifactId>
-            <version>${jabel.version}</version>
-            <scope>provided</scope>
-        </dependency>
-
         <!-- Main -->
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -652,12 +645,6 @@
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
                             <version>${lombok.version}</version>
-                        </path>
-                        <!-- jabel setup-->
-                        <path>
-                            <groupId>com.github.bsideup.jabel</groupId>
-                            <artifactId>jabel-javac-plugin</artifactId>
-                            <version>${jabel.version}</version>
                         </path>
                     </annotationProcessorPaths>
                     <!-- enable language preview features -->
